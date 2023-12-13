@@ -27,6 +27,12 @@ class AuthService {
         const token = jwt.sign({ id: user.id, email: user.email }, 'shh', { expiresIn: '1d' })
         return { token, user }
     }
+
+    verifyToken(token) {
+        const decodedToken = jwt.verify(token, 'shh')
+        const user = this.repository.findByEmail(decodedToken.email)
+        return user
+    }
 }
 
 module.exports = AuthService
