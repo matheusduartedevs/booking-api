@@ -1,23 +1,22 @@
 const fastify = require("fastify");
 const BookingRepository = require("./bookings/BookingRepository");
 const BookingService = require("./bookings/BookingService");
+const BookingController = require("./bookings/BookingController");
 
 const app = fastify({ logger: true })
 
 const bookingRepository = new BookingRepository()
 const bookingService = new BookingService(bookingRepository)
+const bookingController = new BookingController(bookingService)
 
 app.get('/api/bookings', (req, reply) => {
-    const bookings = bookingService.findAllBookings()
-    reply.send(bookings)
+    const { code, body } = bookingController.index(req)
+    reply.code(code).send(body)
 })
 
 app.post('/api/bookings', (req, reply) => {
-    const { roomId, guestName, checkInDate, checkOutDate } = req.body
-
-    const booking = bookingService({ roomId, guestName, checkInDate, checkOutDate })
-
-    reply.code(201).send({ message: "Booking created successfully", booking })
+    const { code, body } = bookingController.save(req)
+    reply.code(code).send(body)
 })
 
 module.exports = app
