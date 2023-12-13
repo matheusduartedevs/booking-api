@@ -7,6 +7,11 @@ const app = fastify({ logger: true })
 const bookingRepository = new BookingRepository()
 const bookingService = new BookingService(bookingRepository)
 
+app.get('/api/bookings', (req, reply) => {
+    const bookings = bookingService.findAllBookings()
+    reply.send(bookings)
+})
+
 app.post('/api/bookings', (req, reply) => {
     const { roomId, guestName, checkInDate, checkOutDate } = req.body
 
