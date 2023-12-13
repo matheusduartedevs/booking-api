@@ -11,3 +11,5 @@ class UserRepository {
         this.users.push(user)
     }
 }
+
+module.exports = UserRepository
