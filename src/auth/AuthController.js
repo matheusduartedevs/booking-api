@@ -17,6 +17,21 @@ class AuthController {
             return { code: 400, body: { message: error.message } }
         }
     }
+
+    login(req) {
+        const { email, password } = req.body
+
+        if (!email || !password) {
+            return { code: 400, body: { message: 'Email and password are required' } }
+        }
+
+        try {
+            const body = this.service.login(email, password)
+            return { code: 200, body }
+        } catch (error) {
+            return { code: 400, body: { message: error.message } }
+        }
+    }
 }
 
 module.exports = AuthController

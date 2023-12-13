@@ -30,4 +30,9 @@ app.post('/api/auth/register', (req, reply) => {
     reply.code(code).send(body)
 })
 
+app.post('/api/auth/login', (req, reply) => {
+    const { code, body } = authController.login(req)
+    reply.code(code).send(body)
+})
+
 module.exports = app
